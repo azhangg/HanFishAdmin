@@ -1,5 +1,5 @@
-import { createRouter, createWebHashHistory } from 'vue-router'
-import basicDemo from './modules/basic-demo'
+import { createRouter, createWebHistory } from 'vue-router'
+import basicDemo, { DynamicRouter } from './modules/dynamic-router'
 import type { RouterTypes } from '~/basic'
 import Layout from '@/layout/index.vue'
 
@@ -40,14 +40,14 @@ export const constantRoutes: RouterTypes = [
         name: 'Dashboard',
         component: () => import('@/views/dashboard/index.vue'),
         //using el svg icon, the elSvgIcon first when at the same time using elSvgIcon and icon
-        meta: { title: 'Dashboard', icon: 'dashboard', affix: true }
+        meta: { title: '首页', icon: 'dashboard', affix: true }
       }
     ]
   },
   {
     path: '/setting-switch',
     component: Layout,
-    alwaysShow:true,
+    alwaysShow: true,
     meta: { title: 'Setting Switch', elSvgIcon: 'Setting' },
     children: [
       {
@@ -117,13 +117,12 @@ export const constantRoutes: RouterTypes = [
     ]
   },
   basicDemo,
-  { path: "/:pathMatch(.*)", redirect: "/404", hidden: true }
+  { path: '/:pathMatch(.*)', redirect: '/404', hidden: true },
+  ...DynamicRouter
 ]
 
 //角色和code数组动态路由
-export const roleCodeRoutes: RouterTypes = [
-
-]
+export const roleCodeRoutes: RouterTypes = []
 /**
  * asyncRoutes
  * the routes that need to be dynamically loaded based on user roles
@@ -132,8 +131,10 @@ export const asyncRoutes: RouterTypes = [
   // 404 page must be placed at the end !!!
 ]
 
+console.log('constantRoutes', constantRoutes)
+
 const router = createRouter({
-  history: createWebHashHistory(),
+  history: createWebHistory(),
   scrollBehavior: () => ({ top: 0 }),
   routes: constantRoutes
 })

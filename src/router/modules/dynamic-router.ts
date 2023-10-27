@@ -1,19 +1,92 @@
-import Layout from '@/layout/index.vue'
+import type { RouteRawConfig } from '@/types/router'
+import type { MenuRaw } from '@/types/menu'
+
+const Layout = import('@/layout/index.vue')
+const Page404 = import('@/views/error-page/404.vue')
+const Page401 = import('@/views/error-page/401.vue')
+
+const viewModules = import.meta.glob('@/views/**/*.vue', { eager: true })
+
+const getPage = (path: string) => {
+  for (const view in viewModules) {
+    if (view.includes(path)) {
+      const component = viewModules[view]
+      return new Promise<typeof component>((resolve, _) => {
+        resolve(component)
+      })
+    }
+  }
+  return Page404
+}
+
+const menus: MenuRaw[] = [
+  {
+    id: 1,
+    name: 'Test',
+    title: '菜单测试',
+    hidden: false,
+    pId: null,
+    children: [
+      {
+        id: 2,
+        name: 'Test1',
+        title: '菜单测试1',
+        hidden: false,
+        children: [],
+        pId: 1
+      },
+      {
+        id: 4,
+        name: 'Test3',
+        title: '菜单测试3',
+        hidden: false,
+        children: [],
+        pId: 1
+      }
+    ]
+  }
+]
+
+const generateRoutersByMenus = (menus: MenuRaw[], basePath: string) => {
+  return menus.map<RouteRawConfig>((item) => {
+    const path = `${basePath}${item.name.toLowerCase()}`
+    return {
+      name: item.name,
+      path: item.pId == null ? path : item.name.toLowerCase(),
+      hidden: item.hidden,
+      alwaysShow: item.awalwaysShow,
+      redirect: item.redirect,
+      component: () => (item.pId ? getPage(path) : Layout),
+      meta: {
+        title: item.title,
+        icon: item.icon,
+        affix: item.affix,
+        cachePage: item.cachePage,
+        closeTabRmCache: item.closeTabRmCache,
+        leaveRmCachePage: item.leaveRmCachePage
+      },
+      children: item.children.length === 0 ? [] : generateRoutersByMenus(item.children, `${path}/`)
+    }
+  })
+}
+
+export const DynamicRouter: RouteRawConfig[] = generateRoutersByMenus(menus, '/')
+
 const BasicDemo = {
   path: '/basic-demo',
-  component: Layout,
+  component: () => Layout,
   meta: { title: 'Basic Demo', icon: 'eye-open' },
   alwaysShow: true,
   children: [
     {
       path: 'hook',
-      component: () => import('@/views/basic-demo/hook/index.vue'),
+      component: () => Page404,
       name: 'Hook',
       meta: { title: 'Hook' }
     },
     {
       path: 'pinia',
-      component: () => import('@/views/basic-demo/pinia/index.vue'),
+      component: () => Page401,
       name: 'Pinia',
       meta: { title: 'Pinia' }
     },
