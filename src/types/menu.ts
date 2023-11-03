@@ -4,12 +4,14 @@ export interface MenuRaw {
   title: string
   hidden: boolean
   pId: number | null
-  awalwaysShow?: boolean
+  alwaysShow?: boolean
   icon?: string
   affix?: boolean
   cachePage?: boolean
   leaveRmCachePage?: boolean
   closeTabRmCache?: boolean
   redirect?: string
+  order: number
   children: MenuRaw[]
+  createTime: string
 }

@@ -1,31 +1,11 @@
-//获取用户信息
-import axiosReq from 'axios'
-// export const userInfoReq = (): Promise<any> => {
-//   return new Promise((resolve) => {
-//     const reqConfig = {
-//       url: '/basis-func/user/getUserInfo',
-//       params: { plateFormId: 2 },
-//       method: 'post'
-//     }
-//     axiosReq(reqConfig).then(({ data }) => {
-//       resolve(data)
-//     })
-//   })
-// }
+import { httpPostByParams, httpPost } from '@/utils/axios-req'
 
 //登录
-export const loginReq = (subForm) => {
-  return axiosReq({
-    url: '/mock/login',
-    params: subForm,
-    method: 'post'
-  })
+export const loginReq = ({ userName, password }) => {
+  return httpPostByParams('/Account/BackendLogin', { userName, password })
 }
 
-//退出登录
-export const loginOutReq = () => {
-  return axiosReq({
-    url: '/mock/loginOut',
-    method: 'post'
-  })
+//注册
+export const registerReq = ({ userName, password }) => {
+  return httpPost('/Account/RegisterUser', { loginName: userName, password, roleId: 2 })
 }

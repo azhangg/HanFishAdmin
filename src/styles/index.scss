@@ -67,5 +67,6 @@ output {
   @include main-show-wh();
   overflow: auto;
 }
-
-
+.el-dialog {
+  border-radius: 20px !important;
+}

@@ -40,12 +40,15 @@
 import { ref } from 'vue'
 import { useRoute } from 'vue-router'
 import { useConfigStore } from '@/store/config'
+import { onMounted } from 'vue'
 
 const { setTheme, theme, setSize, size, setLanguage } = useConfigStore()
 const route = useRoute()
 const changeLanguage = (langParam) => {
   setLanguage(langParam, route.meta?.title)
 }
+
+onMounted(() => {})
 const count = ref(0)
 const showObj = ref(GLOBAL_VAR)
 </script>

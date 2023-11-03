@@ -4,12 +4,12 @@
       <div class="title-container">
         <h3 class="title text-center">{{ settings.title }}</h3>
       </div>
-      <el-form-item prop="keyword" :rules="formRules.isNotNull('用户名不能为空')">
+      <el-form-item prop="userName" :rules="formRules.isNotNull('用户名不能为空')">
         <div class="rowSC flex-1">
           <span class="svg-container">
             <svg-icon icon-class="user" />
           </span>
-          <el-input v-model="subForm.keyword" placeholder="请输入用户名" />
+          <el-input v-model="subForm.userName" placeholder="请输入用户名" />
           <!--占位-->
           <div class="show-pwd" />
         </div>
@@ -35,14 +35,49 @@
         </div>
       </el-form-item>
       <div class="px-3 flex justify-between">
-        <el-checkbox v-model="checked1" label="请记住我" size="large" />
-        <el-link :underline="false">注册账号</el-link>
+        <el-checkbox v-model="rememberMe" label="请记住我" size="large" />
+        <el-link :underline="false" @click="registerDialogVisible = true">注册账号</el-link>
       </div>
       <div class="tip-message">{{ tipMessage }}</div>
       <el-button :loading="subLoading" type="primary" class="login-btn" size="default" @click.prevent="handleLogin">
         登录
       </el-button>
     </el-form>
+
+    <el-dialog v-model="registerDialogVisible" title="注册账号" width="30%" center class="register-dialog">
+      <el-form ref="refLoginForm" class="flex-1" :model="subForm" :rules="formRules">
+        <el-form-item prop="userName" :rules="formRules.isNotNull('用户名不能为空')">
+          <div class="rowSC flex-1">
+            <span class="svg-container">
+              <svg-icon icon-class="user" />
+            </span>
+            <el-input v-model="subForm.userName" placeholder="请输入用户名" />
+          </div>
+        </el-form-item>
+        <el-form-item prop="password" :rules="formRules.isNotNull('密码不能为空')">
+          <div class="rowSC flex-1">
+            <span class="svg-container">
+              <svg-icon icon-class="password" />
+            </span>
+            <el-input
+              :key="passwordType"
+              ref="refPassword"
+              v-model="subForm.password"
+              :type="passwordType"
+              name="password"
+              placeholder="请输入密码"
+              @keyup.enter="handleRegister"
+            />
+          </div>
+        </el-form-item>
+      </el-form>
+      <template #footer>
+        <span class="dialog-footer">
+          <el-button @click="registerDialogVisible = false">取消</el-button>
+          <el-button type="primary" @click="handleRegister">注册</el-button>
+        </span>
+      </template>
+    </el-dialog>
   </div>
 </template>
 <script setup lang="ts">
@@ -50,7 +85,9 @@ import { onMounted, reactive, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useBasicStore } from '@/store/basic'
 import { elMessage, useElement } from '@/hooks/use-element'
-import { loginReq } from '@/api/user'
+import { loginReq, registerReq } from '@/api/user'
+import { clearObject } from '@/utils/common-util'
+import { getUserMenus } from '@/api/menu'
 
 /* listen router change and set the query  */
 const { settings } = useBasicStore()
@@ -58,15 +95,21 @@ const { settings } = useBasicStore()
 const formRules = useElement().formRules
 //form
 const subForm = reactive({
-  keyword: '',
-  password: ''
+  userName: '',
+  password: '',
+  aaaaa: {
+    bbbbbb: 'dsadasdha',
+    cccccc: 'dsadsajkdhsd'
+  },
+  djklsadsa: [1, 23, 4, 5, 6]
 })
 const state: any = reactive({
   otherQuery: {},
   redirect: ''
 })
 
-const checked1 = ref(false)
+const rememberMe = ref(false)
+const registerDialogVisible = ref(false)
 
 const route = useRoute()
 const getOtherQuery = (query) => {
@@ -104,14 +147,27 @@ const handleLogin = () => {
     }
   })
 }
+
+const handleRegister = () => {
+  refLoginForm.value.validate((valid) => {
+    if (valid) {
+      registerFunc()
+    }
+  })
+}
+
 const router = useRouter()
 const basicStore = useBasicStore()
 
 const loginFunc = () => {
   loginReq(subForm)
-    .then(({ data }) => {
+    .then((data: any) => {
+      const { accessToken, expiresIn, tokenType } = data
       elMessage('登录成功')
-      basicStore.setToken(data?.jwtToken)
+      basicStore.setToken(`${tokenType} ${accessToken}`)
+      getUserMenus().then((res: any) => {
+        basicStore.setAsyncMenus(res)
+      })
       router.push('/')
     })
     .catch((err) => {
@@ -120,6 +176,14 @@ const loginFunc = () => {
     .finally(() => {
       subLoading.value = false
     })
+}
+
+const registerFunc = () => {
+  registerReq(subForm).then((data: any) => {
+    clearObject(subForm)
+    registerDialogVisible.value = false
+    elMessage('注册成功')
+  })
 }
 /*
  *  password show or hidden
@@ -206,14 +270,13 @@ $light_gray: #eee;
   }
   .el-form-item {
     border: 1px solid rgba(255, 255, 255, 0.1);
-    background: rgba(0, 0, 0, 0.1);
+    background: rgba(0, 0, 0, 0.3);
     border-radius: 5px;
     color: #454545;
   }
   .el-input input {
     background: transparent;
     border: 0px;
-    -webkit-appearance: none;
     border-radius: 0px;
     padding: 10px 5px 10px 15px;
     color: #fff;
@@ -223,6 +286,22 @@ $light_gray: #eee;
   //hiden the input border
   .el-input__inner {
     box-shadow: none !important;
+  }
+  .register-dialog {
+    .el-form-item {
+      background: rgba(255, 255, 255, 0.5) !important;
+    }
+    .el-input {
+      border: 1px solid var(--el-input-hover-border-color);
+      border-radius: 5px;
+      & input {
+        color: black;
+        caret-color: black;
+      }
+      &__wrapper:hover {
+        box-shadow: none;
+      }
+    }
   }
 }
 </style>

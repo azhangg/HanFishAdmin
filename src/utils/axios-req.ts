@@ -67,30 +67,31 @@ service.interceptors.response.use(
       loadingInstance && loadingInstance.close()
     }
     //download file
-    if (res.data?.type?.includes("sheet")) {
+    if (res.data?.type?.includes('sheet')) {
       return res
     }
-    const { code, msg } = res.data
-    const successCode = [0,200,20000]
-    const noAuthCode = [401,403]
-    if (successCode.includes(code)) {
-      return res.data
+
+    const { isSuccess, message, data } = res.data
+
+    const noAuthCode = [401, 403]
+    if (isSuccess) {
+      return data
     } else {
       //authorTipDoor 防止多个请求 多次alter
       if (authorTipDoor) {
-        if (noAuthCode.includes(code)) {
+        if (noAuthCode.includes(res.status)) {
           noAuthDill()
         } else {
           // @ts-ignore
-          if (!res.config?.isNotTipErrorMsg) {
+          if (!isSuccess) {
             ElMessage.error({
-              message: msg,
+              message: message,
               duration: 2 * 1000
             })
           } else {
             return res
           }
-          return Promise.reject(msg)
+          return Promise.reject(message)
         }
       }
     }
@@ -109,11 +110,36 @@ service.interceptors.response.use(
     return Promise.reject(err)
   }
 )
+
 //导出service实例给页面调用 , config->页面的配置
 export default function axiosReq(config) {
   return service({
     baseURL: import.meta.env.VITE_APP_BASE_URL,
     timeout: 8000,
     ...config
+  })
+}
+
+export const httpPostByParams = (url: string, params) => {
+  return axiosReq({
+    url: `/api${url}`,
+    method: 'post',
+    params: { ...params }
+  })
+}
+
+export const httpPost = (url: string, data) => {
+  return axiosReq({
+    url: `/api${url}`,
+    method: 'post',
+    data: { ...data }
+  })
+}
+
+export const httpGet = (url, params?) => {
+  return axiosReq({
+    url: `/api${url}`,
+    method: 'get',
+    params: { ...params }
   })
 }

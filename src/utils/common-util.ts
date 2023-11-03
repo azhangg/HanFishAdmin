@@ -125,3 +125,26 @@ export default {
     return arrObj3
   }
 }
+
+//清空深层响应式对象
+export const clearObject = (raw: object, config?: { numberTo?: any }) => {
+  for (const key in raw) {
+    console.log(typeof raw[key])
+    console.log(raw[key])
+    const type = typeof raw[key]
+    switch (type) {
+      case 'string':
+        raw[key] = ''
+        break
+      case 'number':
+        raw[key] = config?.numberTo ?? 0
+        break
+      case 'object':
+        if (Array.isArray(raw[key])) raw[key] = []
+        else clearObject(raw[key], config)
+        break
+      default:
+        break
+    }
+  }
+}

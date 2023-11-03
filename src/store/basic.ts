@@ -3,6 +3,7 @@ import { defineStore } from 'pinia'
 import type { RouterTypes } from '~/basic'
 import defaultSettings from '@/settings'
 import router, { constantRoutes } from '@/router'
+import { MenuRaw } from '@/types/menu'
 export const useBasicStore = defineStore('basic', {
   state: () => {
     return {
@@ -22,12 +23,13 @@ export const useBasicStore = defineStore('basic', {
       sidebar: { opened: true },
       //axios req collection
       axiosPromiseArr: [] as Array<ObjKeys>,
-      settings: defaultSettings
+      settings: defaultSettings,
+      asyncMenus: [] as Array<MenuRaw>
     }
   },
   persist: {
     storage: localStorage,
-    paths: ['token']
+    paths: ['token', 'asyncMenus', 'filterAsyncRoutes']
   },
   actions: {
     remotePromiseArrByReqUrl(reqUrl) {
@@ -41,11 +43,14 @@ export const useBasicStore = defineStore('basic', {
     },
     clearPromiseArr() {
       this.$patch((state) => {
-        state.axiosPromiseArr=[]
+        state.axiosPromiseArr = []
       })
     },
     setToken(data) {
       this.token = data
+    },
+    setAsyncMenus(data) {
+      this.asyncMenus = data
     },
     setFilterAsyncRoutes(routes) {
       this.$patch((state) => {
@@ -73,6 +78,7 @@ export const useBasicStore = defineStore('basic', {
         state.allRoutes = []
         state.buttonCodes = []
         state.filterAsyncRoutes = []
+        state.asyncMenus = []
         //reset userInfo
         state.userInfo.username = ''
         state.userInfo.avatar = ''
