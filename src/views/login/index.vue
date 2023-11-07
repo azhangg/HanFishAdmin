@@ -87,7 +87,8 @@ import { useBasicStore } from '@/store/basic'
 import { elMessage, useElement } from '@/hooks/use-element'
 import { loginReq, registerReq } from '@/api/user'
 import { clearObject } from '@/utils/common-util'
-import { getUserMenus } from '@/api/menu'
+import { getUserMenusReq } from '@/api/menu'
+import { freshRouter } from '@/hooks/use-permission'
 
 /* listen router change and set the query  */
 const { settings } = useBasicStore()
@@ -165,8 +166,9 @@ const loginFunc = () => {
       const { accessToken, expiresIn, tokenType } = data
       elMessage('登录成功')
       basicStore.setToken(`${tokenType} ${accessToken}`)
-      getUserMenus().then((res: any) => {
+      getUserMenusReq().then((res: any) => {
         basicStore.setAsyncMenus(res)
+        freshRouter(res)
       })
       router.push('/')
     })

@@ -29,7 +29,7 @@ export const useBasicStore = defineStore('basic', {
   },
   persist: {
     storage: localStorage,
-    paths: ['token', 'asyncMenus', 'filterAsyncRoutes']
+    paths: ['token', 'asyncMenus']
   },
   actions: {
     remotePromiseArrByReqUrl(reqUrl) {

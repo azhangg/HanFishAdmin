@@ -8,10 +8,10 @@ let loadingInstance: any = null //loading实例
 let tempReqUrlSave = ''
 let authorTipDoor = true
 
-const noAuthDill = () => {
+const noAuthDill = (msg = '请重新登录') => {
   authorTipDoor = false
-  ElMessageBox.confirm('请重新登录', {
-    confirmButtonText: '重新登录',
+  ElMessageBox.confirm(msg, {
+    confirmButtonText: '请重新登录',
     closeOnClickModal: false,
     showCancelButton: false,
     showClose: false,
@@ -107,6 +107,7 @@ service.interceptors.response.use(
       message: err,
       duration: 2 * 1000
     })
+    if (err.response.status === 401) noAuthDill(err)
     return Promise.reject(err)
   }
 )

@@ -13,22 +13,26 @@ import { useRoute } from 'vue-router'
 import { useBasicStore } from '@/store/basic'
 import { useConfigStore } from '@/store/config'
 import { useErrorLog } from '@/hooks/use-error-log'
+import { freshRouter, menus } from '@/hooks/use-permission'
 
 //reshow default setting
 import { toggleHtmlClass } from '@/theme/utils'
 const lang = { zh, en }
+const route = useRoute()
 
-const { settings } = storeToRefs(useBasicStore())
+const { settings, asyncMenus } = storeToRefs(useBasicStore())
 const { size, language } = storeToRefs(useConfigStore())
+
 onBeforeMount(() => {
   //set tmp token when setting isNeedLogin false
   if (!settings.value.isNeedLogin) useBasicStore().setToken(settings.value.tmpToken)
+  freshRouter(menus)
 })
 onMounted(() => {
   //lanch the errorLog collection
   useErrorLog()
 })
-const route = useRoute()
+
 onMounted(() => {
   const { setTheme, theme, setSize, size, setLanguage, language } = useConfigStore()
   setTheme(theme)

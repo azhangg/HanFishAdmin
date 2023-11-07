@@ -1,6 +1,7 @@
 import NProgress from 'nprogress'
 import type { RouteRawConfig, RouterTypes, rawConfig } from '~/basic'
 import type { RouteRecordName } from 'vue-router'
+import type { MenuRaw } from '@/types/menu'
 /**
  * 根据请求，过滤异步路由
  * @param:menuList 异步路由数组
@@ -11,10 +12,17 @@ import Layout from '@/layout/index.vue'
 /*
  * 路由操作
  * */
-import router, { asyncRoutes, constantRoutes, roleCodeRoutes } from '@/router'
+import router, { constantRoutes, roleCodeRoutes } from '@/router'
 //进度条
 import 'nprogress/nprogress.css'
 import { useBasicStore } from '@/store/basic'
+
+const Page404 = import('@/views/error-page/404.vue')
+const Page401 = import('@/views/error-page/401.vue')
+
+const viewModules = import.meta.glob('@/views/**/*.vue', { eager: true })
+
+export const menus = JSON.parse(localStorage.getItem('basic') ?? '').asyncMenus
 
 const buttonCodes: Array<Number> = [] //按钮权限
 interface menuRow {
@@ -133,21 +141,61 @@ function hasCodePermission(codes, routeItem) {
     return true
   }
 }
-//过滤异步路由
-export function filterAsyncRouter({ menuList, roles, codes }) {
-  const basicStore = useBasicStore()
-  let accessRoutes: RouterTypes = []
-  const permissionMode = basicStore.settings?.permissionMode
-  if (permissionMode === 'rbac') {
-    accessRoutes = filterAsyncRoutesByMenuList(menuList) //by menuList
-  } else if (permissionMode === 'roles') {
-    accessRoutes = filterAsyncRoutesByRoles(roleCodeRoutes, roles) //by roles
-  } else {
-    accessRoutes = filterAsyncRouterByCodes(roleCodeRoutes, codes) //by codes
+
+function ToPromise(raw) {
+  return new Promise<typeof raw>((resolve, _) => resolve(raw))
+}
+
+const getPage = (path: string) => {
+  for (const view in viewModules) {
+    if (view.includes(path)) {
+      const component = viewModules[view]
+      return ToPromise(component)
+    }
   }
-  accessRoutes.forEach((route) => router.addRoute(route))
+  return Page404
+}
+
+//根据菜单动态生成路由
+export const generateRoutersByMenus = (menus: MenuRaw[], basePath: string) => {
+  return menus.map<RouteRawConfig>((item) => {
+    const path = `${basePath}${item.name.toLowerCase()}`
+    return {
+      name: item.name,
+      path: item.pId == null ? path : item.name.toLowerCase(),
+      hidden: item.hidden,
+      alwaysShow: item.alwaysShow,
+      redirect: item.redirect,
+      component: () => (item.pId ? getPage(path) : ToPromise(Layout)),
+      meta: {
+        title: item.title,
+        icon: item.icon,
+        affix: item.affix,
+        cachePage: item.cachePage,
+        closeTabRmCache: item.closeTabRmCache,
+        leaveRmCachePage: item.leaveRmCachePage
+      },
+      children: item.children.length === 0 ? [] : generateRoutersByMenus(item.children, `${path}/`)
+    }
+  })
+}
+
+//过滤异步路由
+export function filterAsyncRouter(menus: MenuRaw[]) {
+  const basicStore = useBasicStore()
+  // const accessRoutes: RouterTypes = []
+  const asyncRoutes: RouterTypes = generateRoutersByMenus(menus, '/')
+  // const permissionMode = basicStore.settings?.permissionMode
+  // if (permissionMode === 'rbac') {
+  //   accessRoutes = filterAsyncRoutesByMenuList(menuList) //by menuList
+  // } else if (permissionMode === 'roles') {
+  //   accessRoutes = filterAsyncRoutesByRoles(roleCodeRoutes, roles) //by roles
+  // } else {
+  //   accessRoutes = filterAsyncRouterByCodes(roleCodeRoutes, codes) //by codes
+  // }
+  // accessRoutes.forEach((route) => router.addRoute(route))//后续看4情况再启用
   asyncRoutes.forEach((item) => router.addRoute(item))
-  basicStore.setFilterAsyncRoutes(accessRoutes)
+  basicStore.setFilterAsyncRoutes(asyncRoutes)
 }
 //重置路由
 export function resetRouter() {

@@ -1,9 +1,7 @@
-import type { RouteRawConfig } from '@/types/router'
-import type { MenuRaw } from '@/types/menu'
-
 import { createRouter, createWebHistory } from 'vue-router'
 import basicDemo from './modules/dynamic-router'
-import type { RouterTypes } from '~/basic'
+import type { RouterTypes, RouteRawConfig } from '~/basic'
+import type { MenuRaw } from '@/types/menu'
 import Layout from '@/layout/index.vue'
 
 const Page404 = import('@/views/error-page/404.vue')
@@ -11,7 +9,7 @@ const Page401 = import('@/views/error-page/401.vue')
 
 const viewModules = import.meta.glob('@/views/**/*.vue', { eager: true })
 
-const asyncMenus: MenuRaw[] = JSON.parse(localStorage.getItem('basic') ?? '')?.asyncMenus ?? []
+const menus = JSON.parse(localStorage.getItem('basic') ?? '').asyncMenus
 
 function ToPromise(raw) {
   return new Promise<typeof raw>((resolve, _) => resolve(raw))
@@ -28,7 +26,7 @@ const getPage = (path: string) => {
 }
 
 //根据菜单动态生成路由
-const generateRoutersByMenus = (menus: MenuRaw[], basePath: string) => {
+export const generateRoutersByMenus = (menus: MenuRaw[], basePath: string) => {
   return menus.map<RouteRawConfig>((item) => {
     const path = `${basePath}${item.name.toLowerCase()}`
     return {
@@ -50,8 +48,6 @@ const generateRoutersByMenus = (menus: MenuRaw[], basePath: string) => {
     }
   })
 }
-
-const DynamicRouter: RouteRawConfig[] = generateRoutersByMenus(asyncMenus, '/')
 
 export const constantRoutes: RouterTypes = [
   {
@@ -174,7 +170,6 @@ export const constantRoutes: RouterTypes = [
   //   ]
   // },
   // basicDemo,
-  ...DynamicRouter,
   { name: ':PathMatch(.*)', path: '/:pathMatch(.*)', redirect: '/404', hidden: true }
 ]
 
@@ -192,6 +187,12 @@ const router = createRouter({
   history: createWebHistory(),
   scrollBehavior: () => ({ top: 0 }),
   routes: constantRoutes
+})
+
+const routes = generateRoutersByMenus(menus, '/')
+
+routes.forEach((route) => {
+  router.addRoute(route)
 })
 
 export default router

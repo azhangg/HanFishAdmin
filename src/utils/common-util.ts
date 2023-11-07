@@ -128,9 +128,9 @@ export default {
 
 //清空深层响应式对象
 export const clearObject = (raw: object, config?: { numberTo?: any }) => {
+  const ignoreKeys = ['isTrusted', '_vts', 'pointerId']
   for (const key in raw) {
-    console.log(typeof raw[key])
-    console.log(raw[key])
+    if (ignoreKeys.includes(key)) return
     const type = typeof raw[key]
     switch (type) {
       case 'string':
@@ -141,6 +141,7 @@ export const clearObject = (raw: object, config?: { numberTo?: any }) => {
         break
       case 'object':
         if (Array.isArray(raw[key])) raw[key] = []
+        else if (raw[key] == null) return
         else clearObject(raw[key], config)
         break
       default:
