@@ -3,7 +3,7 @@ import { defineStore } from 'pinia'
 import type { RouterTypes } from '~/basic'
 import defaultSettings from '@/settings'
 import router, { constantRoutes } from '@/router'
-import { MenuRaw } from '@/types/menu'
+import type { MenuRaw } from '@/types/menu'
 export const useBasicStore = defineStore('basic', {
   state: () => {
     return {

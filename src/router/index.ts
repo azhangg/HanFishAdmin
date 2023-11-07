@@ -1,6 +1,6 @@
 import { createRouter, createWebHistory } from 'vue-router'
 import basicDemo from './modules/dynamic-router'
-import type { RouterTypes, RouteRawConfig } from '~/basic'
+import type { RouteRawConfig, RouterTypes } from '~/basic'
 import type { MenuRaw } from '@/types/menu'
 import Layout from '@/layout/index.vue'
 

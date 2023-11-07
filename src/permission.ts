@@ -1,5 +1,5 @@
 import router from '@/router'
-import { progressClose, progressStart, generateRoutersByMenus, menus } from '@/hooks/use-permission'
+import { generateRoutersByMenus, menus, progressClose, progressStart } from '@/hooks/use-permission'
 import { useBasicStore } from '@/store/basic'
 import { langTitle } from '@/hooks/use-common'
 import settings from '@/settings'

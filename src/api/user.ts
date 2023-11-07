@@ -1,4 +1,4 @@
-import { httpPostByParams, httpPost } from '@/utils/axios-req'
+import { httpPost, httpPostByParams } from '@/utils/axios-req'
 
 //登录
 export const loginReq = ({ userName, password }) => {

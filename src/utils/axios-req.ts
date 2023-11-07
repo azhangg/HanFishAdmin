@@ -85,7 +85,7 @@ service.interceptors.response.use(
           // @ts-ignore
           if (!isSuccess) {
             ElMessage.error({
-              message: message,
+              message,
               duration: 2 * 1000
             })
           } else {

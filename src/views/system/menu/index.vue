@@ -1,11 +1,11 @@
 <script setup lang="ts">
-import type { MenuRaw, Menu } from '@/types/menu'
+import type { Menu, MenuRaw } from '@/types/menu'
 import type { FormInstance, FormRules } from 'element-plus'
-import { ElMessageBox, ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 import { OperationType } from '@/types/enums'
 import { clearObject } from '@/utils/common-util'
-import { Edit, Delete, Plus, CopyDocument } from '@element-plus/icons-vue'
-import { getAllMenusReq, addMenuReq, updateMenuReq, deleteMenuReq } from '@/api/menu'
+import { CopyDocument, Delete, Edit, Plus } from '@element-plus/icons-vue'
+import { addMenuReq, deleteMenuReq, getAllMenusReq, updateMenuReq } from '@/api/menu'
 
 const menuFormRef = ref<FormInstance>()
 
