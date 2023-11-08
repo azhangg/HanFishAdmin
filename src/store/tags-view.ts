@@ -26,6 +26,7 @@ export const useTagsViewStore = defineStore('tagsView', {
             })
           )
         }
+        if (view.path.includes('redirect')) state.visitedViews.pop()
       })
     },
     delVisitedView(view) {

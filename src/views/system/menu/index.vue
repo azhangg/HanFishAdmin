@@ -14,7 +14,7 @@ const menuRules = reactive<FormRules>({
   title: [{ required: true, message: '请输入标题', trigger: 'blur' }]
 })
 
-const menuList = ref<MenuRaw[]>()
+const menuList = ref<MenuRaw[]>([])
 
 const menuDialogVisible = ref(false)
 
@@ -113,7 +113,7 @@ onMounted(() => {
     <el-table
       :data="menuList"
       style="width: 100%"
-      height="100%"
+      height="95%"
       row-key="id"
       border
       :row-class-name="tableRowClassName"
@@ -219,5 +219,8 @@ onMounted(() => {
 }
 .el-table--enable-row-hover .el-table__body tr:hover > td.el-table__cell {
   background-color: transparent !important;
+}
+.el-table__inner-wrapper {
+  height: 100% !important;
 }
 </style>

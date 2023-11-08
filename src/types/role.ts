@@ -3,3 +3,8 @@ export interface RoleType {
   name: string
   menuIds: number[]
 }
+
+export interface AddRoleModel {
+  name: string
+  menuIds: number[]
+}

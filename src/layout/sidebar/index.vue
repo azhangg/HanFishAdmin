@@ -11,7 +11,7 @@
         :collapse-transition="false"
         mode="vertical"
       >
-        <sidebar-item v-for="route in allRoutes" :key="route.path" :item="route" :base-path="route.path" />
+        <sidebar-item v-for="route in allRoutesNotRef" :key="route.path" :item="route" :base-path="route.path" />
       </el-menu>
     </el-scrollbar>
   </div>
@@ -25,6 +25,7 @@ import Logo from './Logo.vue'
 import SidebarItem from './SidebarItem.vue'
 import { useBasicStore } from '@/store/basic'
 const { settings, allRoutes, sidebar } = storeToRefs(useBasicStore())
+const allRoutesNotRef = toRaw(allRoutes.value)
 const routeInstance = useRoute()
 const activeMenu = computed(() => {
   const { meta, path } = routeInstance

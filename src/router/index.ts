@@ -92,7 +92,7 @@ export const constantRoutes: RouterTypes = [
         name: 'Home',
         component: () => import('@/views/home/index.vue'),
         //using el svg icon, the elSvgIcon first when at the same time using elSvgIcon and icon
-        meta: { title: '首页', icon: 'dashboard', affix: true }
+        meta: { title: '首页', icon: 'home-fill', affix: true }
       }
     ]
   },

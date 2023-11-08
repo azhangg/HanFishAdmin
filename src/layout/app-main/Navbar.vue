@@ -17,7 +17,10 @@
     <div v-if="settings.ShowDropDown" class="right-menu rowSC">
       <el-dropdown trigger="click" size="medium">
         <div class="avatar-wrapper">
-          <img src="https://github.jzfai.top/file/images/nav-right-logo.gif" class="user-avatar" />
+          <img
+            src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2F55c38ab5-7cff-46ef-ab2a-5149b36d30c7%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1702022935&t=fd2d2a3eaca283f3a3062123b21c77e5"
+            class="user-avatar"
+          />
           <CaretBottom style="width: 1em; height: 1em; margin-left: 4px" />
         </div>
         <template #dropdown>

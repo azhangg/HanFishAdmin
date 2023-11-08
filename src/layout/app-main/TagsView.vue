@@ -133,14 +133,14 @@ const openMenu = (tag, e) => {
   const offsetLeft = vm?.$el.getBoundingClientRect().left // container margin left
   const offsetWidth = vm?.$el.offsetWidth // container width
   const maxLeft = offsetWidth - menuMinWidth // left boundary
-  const left = e.clientX - offsetLeft + 15 // 15: margin right
+  const left = e.clientX - offsetLeft + 5 // 5: margin right
 
   if (left > maxLeft) {
     state.left = maxLeft
   } else {
     state.left = left
   }
-  state.top = e.clientY
+  state.top = e.clientY - 30
   state.visible = true
   state.selectedTag = tag
 }
@@ -201,7 +201,7 @@ const toLastView = (visitedViews, view) => {
   if (latestView) {
     router.push(latestView.fullPath)
   } else {
-    if (view.name === 'Dashboard') {
+    if (view.name === 'Home') {
       // to reload home page
       router.replace({ path: `/redirect${view.fullPath}` })
     } else {
