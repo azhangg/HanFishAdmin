@@ -25,7 +25,9 @@ import Logo from './Logo.vue'
 import SidebarItem from './SidebarItem.vue'
 import { useBasicStore } from '@/store/basic'
 const { settings, allRoutes, sidebar } = storeToRefs(useBasicStore())
+
 const allRoutesNotRef = toRaw(allRoutes.value)
+
 const routeInstance = useRoute()
 const activeMenu = computed(() => {
   const { meta, path } = routeInstance

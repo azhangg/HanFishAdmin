@@ -85,7 +85,7 @@ import { onMounted, reactive, ref, watch } from 'vue'
 import { useRoute, useRouter } from 'vue-router'
 import { useBasicStore } from '@/store/basic'
 import { elMessage, useElement } from '@/hooks/use-element'
-import { loginReq, registerReq } from '@/api/user'
+import { loginReq, registerReq } from '@/api/account'
 import { clearObject } from '@/utils/common-util'
 import { getUserMenusReq } from '@/api/menu'
 import { freshRouter } from '@/hooks/use-permission'
@@ -163,14 +163,13 @@ const basicStore = useBasicStore()
 const loginFunc = () => {
   loginReq(subForm)
     .then((data: any) => {
-      const { accessToken, expiresIn, tokenType } = data
+      basicStore.setToken(data)
       elMessage('登录成功')
-      basicStore.setToken(`${tokenType} ${accessToken}`)
       getUserMenusReq().then((res: any) => {
         basicStore.setAsyncMenus(res)
         freshRouter(res)
+        router.push('/')
       })
-      router.push('/')
     })
     .catch((err) => {
       tipMessage.value = err?.msg

@@ -7,7 +7,12 @@ import type { MenuRaw } from '@/types/menu'
 export const useBasicStore = defineStore('basic', {
   state: () => {
     return {
-      token: '',
+      token: {
+        tokenType: '',
+        accessToken: '',
+        refreshToken: '',
+        expiresIn: Date.now() / 1000
+      },
       getUserInfo: false,
       userInfo: { username: '', avatar: '' }, //user info
       //router
@@ -71,7 +76,12 @@ export const useBasicStore = defineStore('basic', {
 
     resetState() {
       this.$patch((state) => {
-        state.token = '' //reset token
+        state.token = {
+          tokenType: '',
+          accessToken: '',
+          refreshToken: '',
+          expiresIn: Date.now() / 1000
+        } //reset token
         state.roles = []
         state.codes = []
         //reset router

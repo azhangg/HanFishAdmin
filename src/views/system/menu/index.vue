@@ -175,13 +175,13 @@ onMounted(() => {
     <el-dialog v-model="menuDialogVisible" :title="menu.pId ? '子菜单' : '根目录'">
       <el-form ref="menuFormRef" class="grid grid-cols-2 items-center" :inline="true" :model="menu" :rules="menuRules">
         <el-form-item label="名称" prop="name" label-width="30%">
-          <el-input v-model="menu.name" />
+          <el-input v-model="menu.name" clearable />
         </el-form-item>
         <el-form-item label="标题" prop="title" label-width="30%">
-          <el-input v-model="menu.title" />
+          <el-input v-model="menu.title" clearable />
         </el-form-item>
         <el-form-item label="重定向" prop="redirect" label-width="30%">
-          <el-input v-model="menu.redirect" />
+          <el-input v-model="menu.redirect" clearable />
         </el-form-item>
         <el-form-item label="配置" label-width="30%">
           <el-checkbox v-model="menu.hidden" label="隐藏" />

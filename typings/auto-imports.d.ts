@@ -39,6 +39,7 @@ declare global {
   const httpPost: typeof import('../src/utils/axios-req')['httpPost']
   const httpPostByParams: typeof import('../src/utils/axios-req')['httpPostByParams']
   const inject: typeof import('vue')['inject']
+  const interval: typeof import('../src/utils/bus')['interval']
   const isExternal: typeof import('../src/hooks/use-layout')['isExternal']
   const isProxy: typeof import('vue')['isProxy']
   const isReactive: typeof import('vue')['isReactive']

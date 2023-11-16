@@ -6,4 +6,4 @@ export const addRoleReq = (role: AddRoleModel) => httpPost('/Role/AddRole', role
 
 export const updateRoleReq = (role: RoleType) => httpPost('/Role/UpdateRole', role)
 
-export const deleteRoleReq = (id: number) => httpPost('/Role/DelateRole', { id })
+export const deleteRoleReq = (id: number) => httpPostByParams('/Role/DelateRole', { id })

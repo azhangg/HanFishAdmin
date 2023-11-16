@@ -38,6 +38,7 @@
     "httpPost": true,
     "httpPostByParams": true,
     "inject": true,
+    "interval": true,
     "isExternal": true,
     "isProxy": true,
     "isReactive": true,

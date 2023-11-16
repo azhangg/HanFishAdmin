@@ -29,14 +29,18 @@ service.interceptors.request.use(
     //axiosPromiseArr收集请求地址,用于取消请求
     req.cancelToken = new axios.CancelToken((cancel) => {
       tempReqUrlSave = req.url
-      axiosPromiseArr.push({
-        url: req.url,
-        cancel
-      })
+      if (!axiosPromiseArr.some((p) => p.url === req.url))
+        axiosPromiseArr.push({
+          url: req.url,
+          cancel
+        })
     })
 
-    //设置token到header
-    if (token) req.headers['Authorization'] = token
+    //设置token
+    if (token.accessToken) {
+      req.headers['Authorization'] = `${token.tokenType} ${token.accessToken}`
+    }
+
     //如果req.method给get 请求参数设置为 ?name=xxx
     if ('get'.includes(req.method?.toLowerCase()) && !req.params) req.params = req.data
 
@@ -80,7 +84,7 @@ service.interceptors.response.use(
       //authorTipDoor 防止多个请求 多次alter
       if (authorTipDoor) {
         if (noAuthCode.includes(res.status)) {
-          noAuthDill()
+          // noAuthDill()
         } else {
           // @ts-ignore
           if (!isSuccess) {
@@ -107,7 +111,9 @@ service.interceptors.response.use(
       message: err,
       duration: 2 * 1000
     })
-    if (err.response.status === 401) noAuthDill(err)
+    if (err.response.status === 401 && authorTipDoor) {
+      noAuthDill(err)
+    }
     return Promise.reject(err)
   }
 )
@@ -116,7 +122,7 @@ service.interceptors.response.use(
 export default function axiosReq(config) {
   return service({
     baseURL: import.meta.env.VITE_APP_BASE_URL,
-    timeout: 8000,
+    timeout: 10000,
     ...config
   })
 }

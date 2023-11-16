@@ -193,7 +193,7 @@ export function filterAsyncRouter(menus: MenuRaw[]) {
   // } else {
   //   accessRoutes = filterAsyncRouterByCodes(roleCodeRoutes, codes) //by codes
   // }
-  // accessRoutes.forEach((route) => router.addRoute(route))//后续看4情况再启用
+  // accessRoutes.forEach((route) => router.addRoute(route))//后续看情况再启用
   asyncRoutes.forEach((item) => router.addRoute(item))
   basicStore.setFilterAsyncRoutes(asyncRoutes)
 }

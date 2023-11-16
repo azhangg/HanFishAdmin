@@ -1,5 +1,5 @@
 import router from '@/router'
-import { generateRoutersByMenus, menus, progressClose, progressStart } from '@/hooks/use-permission'
+import { generateRoutersByMenus, progressClose, progressStart } from '@/hooks/use-permission'
 import { useBasicStore } from '@/store/basic'
 import { langTitle } from '@/hooks/use-common'
 import settings from '@/settings'
@@ -13,16 +13,16 @@ router.beforeEach(async (to) => {
   const basicStore = useBasicStore()
   //not login
   if (!settings.isNeedLogin) {
-    basicStore.setFilterAsyncRoutes(generateRoutersByMenus(menus, '/'))
+    basicStore.setFilterAsyncRoutes(generateRoutersByMenus(basicStore.asyncMenus, '/'))
     return true
   }
 
   //1.判断token
-  if (basicStore.token) {
+  if (basicStore.token.accessToken) {
     if (to.path === '/login') {
       return '/'
     } else {
-      basicStore.setFilterAsyncRoutes(generateRoutersByMenus(menus, '/'))
+      basicStore.setFilterAsyncRoutes(generateRoutersByMenus(basicStore.asyncMenus, '/'))
       return true
     }
   } else {

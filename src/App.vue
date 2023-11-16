@@ -20,7 +20,7 @@ import { toggleHtmlClass } from '@/theme/utils'
 const lang = { zh, en }
 const route = useRoute()
 
-const { settings, asyncMenus } = storeToRefs(useBasicStore())
+const { settings } = storeToRefs(useBasicStore())
 const { size, language } = storeToRefs(useConfigStore())
 
 onBeforeMount(() => {
