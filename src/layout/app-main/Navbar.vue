@@ -16,11 +16,9 @@
     <!-- 下拉操作菜单 -->
     <div v-if="settings.ShowDropDown" class="right-menu rowSC">
       <el-dropdown trigger="click" size="medium">
-        <div class="avatar-wrapper">
-          <img
-            src="https://gimg2.baidu.com/image_search/src=http%3A%2F%2Fsafe-img.xhscdn.com%2Fbw1%2F55c38ab5-7cff-46ef-ab2a-5149b36d30c7%3FimageView2%2F2%2Fw%2F1080%2Fformat%2Fjpg&refer=http%3A%2F%2Fsafe-img.xhscdn.com&app=2002&size=f9999,10000&q=a80&n=0&g=0n&fmt=auto?sec=1702022935&t=fd2d2a3eaca283f3a3062123b21c77e5"
-            class="user-avatar"
-          />
+        <div class="avatar-wrapper flex gap-2 items-center">
+          <img :src="userInfo.avatarUrl ? `${Base_URL}/${userInfo.avatarUrl}` : DefaultAvatar" class="user-avatar" />
+          <span>{{ userInfo.name }}</span>
           <CaretBottom style="width: 1em; height: 1em; margin-left: 4px" />
         </div>
         <template #dropdown>
@@ -51,11 +49,17 @@ import { elMessage } from '@/hooks/use-element'
 import { useBasicStore } from '@/store/basic'
 import { langTitle } from '@/hooks/use-common'
 
+import DefaultAvatar from '@/assets/images/default-avatar.jpg'
+
 const basicStore = useBasicStore()
+const { userInfo } = storeToRefs(useBasicStore())
 const { settings, sidebar, setToggleSideBar } = basicStore
 const toggleSideBar = () => {
   setToggleSideBar()
 }
+
+const Base_URL = import.meta.env.VITE_APP_BASE_URL
+
 //退出登录
 const router = useRouter()
 const loginOut = () => {

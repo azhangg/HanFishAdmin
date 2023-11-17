@@ -12,6 +12,6 @@ export const interval = setInterval(() => {
     })
     console.log('刷新token')
   }
-}, 60000)
+}, 10000)
 
 export default $bus

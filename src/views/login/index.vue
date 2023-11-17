@@ -86,6 +86,7 @@ import { useRoute, useRouter } from 'vue-router'
 import { useBasicStore } from '@/store/basic'
 import { elMessage, useElement } from '@/hooks/use-element'
 import { loginReq, registerReq } from '@/api/account'
+import { getUserInfoReq } from '@/api/user'
 import { clearObject } from '@/utils/common-util'
 import { getUserMenusReq } from '@/api/menu'
 import { freshRouter } from '@/hooks/use-permission'
@@ -165,6 +166,9 @@ const loginFunc = () => {
     .then((data: any) => {
       basicStore.setToken(data)
       elMessage('登录成功')
+      getUserInfoReq().then((res: any) => {
+        basicStore.setUserInfo(res)
+      })
       getUserMenusReq().then((res: any) => {
         basicStore.setAsyncMenus(res)
         freshRouter(res)

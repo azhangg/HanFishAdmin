@@ -14,7 +14,7 @@ export const useBasicStore = defineStore('basic', {
         expiresIn: Date.now() / 1000
       },
       getUserInfo: false,
-      userInfo: { username: '', avatar: '' }, //user info
+      userInfo: { id: 0, name: '', avatarUrl: '', roleId: 0 }, //user info
       //router
       allRoutes: [] as RouterTypes,
       buttonCodes: [],
@@ -34,7 +34,7 @@ export const useBasicStore = defineStore('basic', {
   },
   persist: {
     storage: localStorage,
-    paths: ['token', 'asyncMenus']
+    paths: ['token', 'asyncMenus', 'userInfo']
   },
   actions: {
     remotePromiseArrByReqUrl(reqUrl) {
@@ -63,14 +63,9 @@ export const useBasicStore = defineStore('basic', {
         state.allRoutes = constantRoutes.concat(routes)
       })
     },
-    setUserInfo({ userInfo, roles, codes }) {
-      const { username, avatar } = userInfo
+    setUserInfo(userinfo) {
       this.$patch((state) => {
-        state.roles = roles
-        state.codes = codes
-        state.getUserInfo = true
-        state.userInfo.username = username
-        state.userInfo.avatar = avatar
+        state.userInfo = userinfo
       })
     },
 
@@ -90,8 +85,7 @@ export const useBasicStore = defineStore('basic', {
         state.filterAsyncRoutes = []
         state.asyncMenus = []
         //reset userInfo
-        state.userInfo.username = ''
-        state.userInfo.avatar = ''
+        state.userInfo = { id: 0, name: '', avatarUrl: '', roleId: 0 }
       })
       this.getUserInfo = false
     },

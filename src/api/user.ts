@@ -7,3 +7,5 @@ export const getUserToPaginationReq = (params: ReqUsersToPaginationModel) =>
 export const updateUserReq = (user: UpdateUserModel) => httpPost('/User/UpdateUser', user)
 
 export const deleteUserReq = (id: number) => httpPostByParams('/User/DeleteUser', { id })
+
+export const getUserInfoReq = () => httpGet('/User/GetUserInfo')
