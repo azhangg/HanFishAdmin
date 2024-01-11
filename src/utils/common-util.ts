@@ -1,3 +1,5 @@
+import { EnumType } from 'typescript'
+
 export default {
   getWeek() {
     return `星期${'日一二三四五六'.charAt(new Date().getDay())}`
@@ -148,4 +150,13 @@ export const clearObject = (raw: object, config?: { numberTo?: any }) => {
         break
     }
   }
+}
+
+export const enumToObjArr = (data: object) => {
+  const arr: { id: number; name: string }[] = []
+  for (const [key, value] of Object.entries(data)) {
+    if (Number.isNaN(Number(key))) continue
+    arr.push({ id: Number(key), name: value.toString() })
+  }
+  return arr
 }

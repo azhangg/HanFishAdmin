@@ -8,6 +8,9 @@ import { getUserToPaginationReq, updateUserReq, deleteUserReq } from '@/api/user
 import { clearObject } from '@/utils/common-util'
 import { OperationType } from '@/types/enums'
 import { UserType } from '@/types/user'
+import moment from 'moment-mini'
+
+const BASE_URL = import.meta.env.VITE_APP_BASE_URL
 
 const userFormRef = ref<FormInstance>()
 
@@ -123,11 +126,26 @@ onMounted(() => {
       <el-button class="mb2" type="primary" plain :icon="Search" @click="onSearchClick">查询</el-button>
     </div>
     <el-table :data="userList" style="width: 100%" height="90%" border>
-      <el-table-column prop="name" label="用户名" align="center" />
+      <el-table-column prop="name" label="用户名" align="center">
+        <template #default="scope">
+          <div class="flex items-center gap-2 justify-center">
+            <img v-if="scope.row.avatarUrl" class="h8 w8 rounded-4" :src="`${BASE_URL}/${scope.row.avatarUrl}`" />
+            {{ scope.row.name }}
+          </div>
+        </template>
+      </el-table-column>
       <el-table-column prop="loginName" label="账号" align="center" />
       <el-table-column prop="roleId" label="角色" align="center">
         <template #default="scope">
-          <el-tag size="large" class="ml-2">{{ roleList.find((r) => r.id === scope.row.roleId)?.name ?? '无' }}</el-tag>
+          <el-tag v-if="scope.row.roleId === 1" size="large" class="ml-2" type="danger">
+            {{ roleList.find((r) => r.id === scope.row.roleId)?.name ?? '无' }}
+          </el-tag>
+          <el-tag v-else-if="scope.row.roleId === 2" size="large" class="ml-2" type="warning">
+            {{ roleList.find((r) => r.id === scope.row.roleId)?.name ?? '无' }}
+          </el-tag>
+          <el-tag v-else size="large" class="ml-2" type="success">
+            {{ roleList.find((r) => r.id === scope.row.roleId)?.name ?? '无' }}
+          </el-tag>
         </template>
       </el-table-column>
       <el-table-column prop="email" label="邮箱" align="center" />
@@ -135,7 +153,7 @@ onMounted(() => {
         <template #default="scope">
           <div class="flex justify-center items-center">
             <el-icon><timer /></el-icon>
-            <span class="ml2">{{ scope.row.createTime }}</span>
+            <span class="ml2">{{ moment(scope.row.createTime).format('YYYY年M月d日 HH:mm:ss') }}</span>
           </div>
         </template>
       </el-table-column>

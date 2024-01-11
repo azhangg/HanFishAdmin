@@ -14,6 +14,7 @@ import { useBasicStore } from '@/store/basic'
 import { useConfigStore } from '@/store/config'
 import { useErrorLog } from '@/hooks/use-error-log'
 import { freshRouter, menus } from '@/hooks/use-permission'
+import { useInterval } from '@/hooks/use-interval'
 
 //reshow default setting
 import { toggleHtmlClass } from '@/theme/utils'
@@ -39,6 +40,7 @@ onMounted(() => {
   setLanguage(language, route.meta?.title)
   setSize(size)
   toggleHtmlClass(theme)
+  useInterval()
 })
 </script>
 <style lang="scss">

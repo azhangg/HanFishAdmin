@@ -98,12 +98,7 @@ const formRules = useElement().formRules
 //form
 const subForm = reactive({
   userName: '',
-  password: '',
-  aaaaa: {
-    bbbbbb: 'dsadasdha',
-    cccccc: 'dsadsajkdhsd'
-  },
-  djklsadsa: [1, 23, 4, 5, 6]
+  password: ''
 })
 const state: any = reactive({
   otherQuery: {},
@@ -112,6 +107,16 @@ const state: any = reactive({
 
 const rememberMe = ref(false)
 const registerDialogVisible = ref(false)
+
+var sessionData = localStorage.getItem('pwdGroup')
+
+if (sessionData) {
+  var pwdGroup = JSON.parse(sessionData)
+  const { userName, password } = pwdGroup
+  subForm.userName = userName
+  subForm.password = password
+  rememberMe.value = true
+}
 
 const route = useRoute()
 const getOtherQuery = (query) => {
@@ -165,6 +170,7 @@ const loginFunc = () => {
   loginReq(subForm)
     .then((data: any) => {
       basicStore.setToken(data)
+      if (rememberMe.value) localStorage.setItem('pwdGroup', JSON.stringify(subForm))
       elMessage('登录成功')
       getUserInfoReq().then((res: any) => {
         basicStore.setUserInfo(res)
