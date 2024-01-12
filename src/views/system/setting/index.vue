@@ -12,7 +12,7 @@
     <el-button @click="setSize('small')">小</el-button>
 
     <div v-lang class="mt-10px mb-10px font-bold">switch language</div>
-    <el-button @click="changeLanguage('en')" disabled>en</el-button>
+    <!-- <el-button @click="changeLanguage('en')" disabled>en</el-button> -->
     <el-button @click="changeLanguage('zh')">zh</el-button>
   </div>
 </template>

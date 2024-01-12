@@ -18,3 +18,8 @@ export enum OrderStatus {
   已完成 = 5,
   已取消 = 6
 }
+
+export enum PostStatus {
+  已发布 = 1,
+  已屏蔽 = 2
+}

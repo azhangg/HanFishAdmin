@@ -1,14 +1,16 @@
 <script setup lang="ts">
 import type { RoleType } from '@/types/role'
-import { FormRules, FormInstance, ElMessage, ElMessageBox } from 'element-plus'
-import { Delete, Edit, Search } from '@element-plus/icons-vue'
+import { FormRules, FormInstance, ElMessage, ElMessageBox, UploadProps } from 'element-plus'
+import { Delete, Edit, Search, Plus } from '@element-plus/icons-vue'
 
 import { getRolesReq } from '@/api/role'
 import { getUserToPaginationReq, updateUserReq, deleteUserReq } from '@/api/user'
-import { clearObject } from '@/utils/common-util'
 import { OperationType } from '@/types/enums'
 import { UserType } from '@/types/user'
 import moment from 'moment-mini'
+import { useBasicStore } from '@/store/basic'
+
+const { token } = useBasicStore()
 
 const BASE_URL = import.meta.env.VITE_APP_BASE_URL
 
@@ -60,6 +62,25 @@ const getRoles = () => {
 const handleCurrentChange = (index) => {
   pagination.page = index
   getUsers()
+}
+
+const handleAvatarSuccess: UploadProps['onSuccess'] = (response, uploadFile) => {
+  const { isSuccess, data } = response
+  if (isSuccess && data.length > 0) {
+    user.avatarUrl = data[0]
+  }
+}
+
+const beforeAvatarUpload: UploadProps['beforeUpload'] = (rawFile) => {
+  const typeList = ['image/jpeg', 'image/jpg', 'image/png']
+  if (!typeList.includes(rawFile.type)) {
+    ElMessage.error('只能上传jpeg、jpg、png三种格式的图片')
+    return false
+  } else if (rawFile.size / 1024 / 1024 > 5) {
+    ElMessage.error('最大只能上传5M以下的图片')
+    return false
+  }
+  return true
 }
 
 const onSearchClick = () => {
@@ -184,7 +205,20 @@ onMounted(() => {
           <el-input v-model="user.email" clearable />
         </el-form-item>
         <el-form-item label="头像" prop="avatarUrl" label-width="10%">
-          <el-input v-model="user.avatarUrl" clearable />
+          <el-upload
+            class="avatar-uploader"
+            :action="`${BASE_URL}/api/Files/UploadFile`"
+            :show-file-list="false"
+            :headers="{
+              Authorization: `${token.tokenType} ${token.accessToken}`
+            }"
+            name="formFile"
+            :on-success="handleAvatarSuccess"
+            :before-upload="beforeAvatarUpload"
+          >
+            <img v-if="user.avatarUrl" :src="`${BASE_URL}/${user.avatarUrl}`" class="avatar" />
+            <el-icon v-else class="avatar-uploader-icon shadow"><Plus /></el-icon>
+          </el-upload>
         </el-form-item>
       </el-form>
       <template #footer>
@@ -202,5 +236,30 @@ onMounted(() => {
 <style lang="scss" scoped>
 .el-button {
   margin: 0;
+  .avatar-uploader .el-upload {
+    border: 1px dashed var(--el-border-color);
+    border-radius: 6px;
+    cursor: pointer;
+    position: relative;
+    overflow: hidden;
+    transition: var(--el-transition-duration-fast);
+  }
+
+  .avatar-uploader .avatar {
+    width: 178px;
+    height: 178px;
+    display: block;
+  }
+
+  .avatar-uploader .el-upload:hover {
+    border-color: var(--el-color-primary);
+  }
+}
+.el-icon.avatar-uploader-icon {
+  font-size: 28px;
+  color: #8c939d;
+  width: 178px;
+  height: 178px;
+  text-align: center;
 }
 </style>
