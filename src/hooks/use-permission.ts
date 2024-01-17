@@ -22,7 +22,7 @@ const Page401 = import('@/views/error-page/401.vue')
 
 const viewModules = import.meta.glob('@/views/**/*.vue', { eager: true })
 
-export const menus = JSON.parse(localStorage.getItem('basic') ?? '').asyncMenus
+export const menus = JSON.parse(localStorage.getItem('basic') ?? JSON.stringify({ asyncMenus: [] })).asyncMenus
 
 const buttonCodes: Array<Number> = [] //按钮权限
 interface menuRow {

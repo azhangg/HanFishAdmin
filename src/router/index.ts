@@ -8,7 +8,7 @@ const Page401 = import('@/views/error-page/401.vue')
 
 const viewModules = import.meta.glob('@/views/**/*.vue', { eager: true })
 
-const menus = JSON.parse(localStorage.getItem('basic') ?? '').asyncMenus
+const menus = JSON.parse(localStorage.getItem('basic') ?? JSON.stringify({ asyncMenus: [] })).asyncMenus
 
 function ToPromise(raw) {
   return new Promise<typeof raw>((resolve, _) => resolve(raw))
