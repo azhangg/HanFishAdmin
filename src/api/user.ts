@@ -9,3 +9,5 @@ export const updateUserReq = (user: UpdateUserModel) => httpPost('/User/UpdateUs
 export const deleteUserReq = (id: number) => httpPostByParams('/User/DeleteUser', { id })
 
 export const getUserInfoReq = () => httpGet('/User/GetUserInfo')
+
+export const updatePasswordReq = (data: { id: number; password: string }) => httpPost('/User/UpdateUserPassword', data)

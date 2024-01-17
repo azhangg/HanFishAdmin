@@ -29,7 +29,9 @@
             <!-- <a target="_blank" href="https://github.com/jzfai/vue3-admin-ts">
               <el-dropdown-item>{{ langTitle('Github') }}</el-dropdown-item>
             </a> -->
-            <!--<el-dropdown-item>修改密码</el-dropdown-item>-->
+            <router-link to="/modifyPassword">
+              <el-dropdown-item>修改密码</el-dropdown-item>
+            </router-link>
             <el-dropdown-item divided @click="loginOut">{{ langTitle('login out') }}</el-dropdown-item>
           </el-dropdown-menu>
         </template>
