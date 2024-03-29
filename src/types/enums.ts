@@ -20,6 +20,7 @@ export enum OrderStatus {
 }
 
 export enum PostStatus {
+  全部 = 0,
   已发布 = 1,
   已屏蔽 = 2
 }

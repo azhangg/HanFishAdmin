@@ -10,7 +10,7 @@ import { UserType } from '@/types/user'
 import moment from 'moment-mini'
 import { useBasicStore } from '@/store/basic'
 
-const { token } = useBasicStore()
+const { token, userInfo } = useBasicStore()
 
 const BASE_URL = import.meta.env.VITE_APP_BASE_URL
 
@@ -181,7 +181,14 @@ onMounted(() => {
       <el-table-column label="操作" align="center">
         <template #default="scope">
           <el-button type="primary" plain :icon="Edit" circle @click="onEditUserClick(scope.row)" />
-          <el-button type="danger" plain :icon="Delete" circle @click="onDeleteMenuClick(scope.row.id)" />
+          <el-button
+            type="danger"
+            v-if="userInfo.id != scope.row.id"
+            plain
+            :icon="Delete"
+            circle
+            @click="onDeleteMenuClick(scope.row.id)"
+          />
         </template>
       </el-table-column>
     </el-table>

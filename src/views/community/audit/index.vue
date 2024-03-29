@@ -15,7 +15,7 @@ const pagination = reactive({
   count: 10,
   total: 0,
   search: '',
-  status: 1
+  status: 0
 })
 
 const postList = ref<GoodType[]>([])
@@ -36,7 +36,8 @@ const getTagType = (status: string) => {
 }
 
 const getPostList = () => {
-  getPostToPaginationReq(pagination).then((res: any) => {
+  const { status } = pagination
+  getPostToPaginationReq({ ...pagination, status: status != 0 ? status : null }).then((res: any) => {
     const { total, data } = res
     pagination.total = total
     postList.value = data
@@ -50,6 +51,11 @@ const handleCurrentChange = (index) => {
 }
 
 const onSearchClick = () => {
+  pagination.page = 1
+  getPostList()
+}
+
+const onSelectChange = () => {
   pagination.page = 1
   getPostList()
 }
@@ -95,7 +101,7 @@ onMounted(() => {
   <div class="good h-full">
     <div class="w-150 flex gap-2 mb2 items-center">
       <el-input v-model="pagination.search" placeholder="请输入内容" clearable @keyup.enter="onSearchClick" />
-      <el-select v-model="pagination.status">
+      <el-select v-model="pagination.status" @change="onSelectChange">
         <el-option v-for="item in postStatus" :key="item.id" :label="item.name" :value="item.id" />
       </el-select>
       <el-button class="mb2" type="primary" plain :icon="Search" @click="onSearchClick">查询</el-button>
