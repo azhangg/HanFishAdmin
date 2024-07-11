@@ -1,10 +1,11 @@
 <script setup lang="ts">
 import type { RoleType } from '@/types/role'
 import type { MenuRaw } from '@/types/menu'
-import { ElTree, FormRules, FormInstance, ElMessage, ElMessageBox } from 'element-plus'
+import type { FormInstance, FormRules} from 'element-plus';
+import { ElMessage, ElMessageBox, ElTree } from 'element-plus'
 import { Delete, Edit, Plus } from '@element-plus/icons-vue'
 
-import { getRolesReq, updateRoleReq, addRoleReq, deleteRoleReq } from '@/api/role'
+import { addRoleReq, deleteRoleReq, getRolesReq, updateRoleReq } from '@/api/role'
 import { getAllMenusReq } from '@/api/menu'
 import { clearObject } from '@/utils/common-util'
 import { OperationType } from '@/types/enums'
@@ -50,7 +51,7 @@ const filterMenus = (menuIds: number[], menus: MenuRaw[]) => {
 }
 
 const filterSonKeysOnMenus = (ids: number[]) => {
-  let keys: number[] = []
+  const keys: number[] = []
   const pushIds = (id: number, menus: MenuRaw[]) => {
     if (menus.length == 0) return
     menus.forEach((menu) => {

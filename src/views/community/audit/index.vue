@@ -1,12 +1,12 @@
 <script setup lang="ts">
 import type { GoodType } from '@/types/good'
 
-import { Search, Delete, Unlock, Lock } from '@element-plus/icons-vue'
+import { Delete, Lock, Search, Unlock } from '@element-plus/icons-vue'
 import moment from 'moment-mini'
-import { getPostToPaginationReq, setPostStatusReq, deletePostReq } from '@/api/community/post'
+import { deletePostReq, getPostToPaginationReq, setPostStatusReq } from '@/api/community/post'
 import { enumToObjArr } from '@/utils/common-util'
 import { PostStatus } from '@/types/enums'
-import { ElMessageBox, ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 const BASE_URL = import.meta.env.VITE_APP_BASE_URL
 

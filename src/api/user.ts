@@ -1,4 +1,4 @@
-import { ReqUsersToPaginationModel, UpdateUserModel } from '@/types/user'
+import type { ReqUsersToPaginationModel, UpdateUserModel } from '@/types/user'
 import { httpPost, httpPostByParams } from '@/utils/axios-req'
 
 export const getUserToPaginationReq = (params: ReqUsersToPaginationModel) =>

@@ -39,7 +39,7 @@ const sphereGeometry = new THREE.SphereGeometry(1, 32, 32)
 const sphere1 = new THREE.Mesh(
   sphereGeometry,
   new THREE.MeshBasicMaterial({
-    color: 0x00ff00
+    color: 0x00FF00
   })
 )
 

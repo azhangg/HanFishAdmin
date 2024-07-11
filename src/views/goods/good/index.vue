@@ -1,13 +1,13 @@
 <script setup lang="ts">
 import type { GoodType } from '@/types/good'
 
-import { Search, Delete, Lock, Unlock } from '@element-plus/icons-vue'
+import { Delete, Lock, Search, Unlock } from '@element-plus/icons-vue'
 import moment from 'moment-mini'
-import { getGoodListReq, updateGoodStatusReq, deleteGoodReq } from '@/api/goods/good'
+import { deleteGoodReq, getGoodListReq, updateGoodStatusReq } from '@/api/goods/good'
 import { getGoodCategoriesReq } from '@/api/goods/goodCategory'
 import { enumToObjArr } from '@/utils/common-util'
 import { GoodStatus } from '@/types/enums'
-import { ElMessageBox, ElMessage } from 'element-plus'
+import { ElMessage, ElMessageBox } from 'element-plus'
 
 const BASE_URL = import.meta.env.VITE_APP_BASE_URL
 

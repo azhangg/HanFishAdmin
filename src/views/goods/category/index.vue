@@ -1,11 +1,11 @@
 <script setup lang="ts">
 import { nextTick, onMounted, ref } from 'vue'
-import { ElInput, ElMessageBox, ElMessage } from 'element-plus'
+import { ElInput, ElMessage, ElMessageBox } from 'element-plus'
 import {
-  getGoodCategoriesReq,
   addGoodCategoryReq,
-  updateGoodCategoryReq,
-  deleteGoodCategoryReq
+  deleteGoodCategoryReq,
+  getGoodCategoriesReq,
+  updateGoodCategoryReq
 } from '@/api/goods/goodCategory'
 
 export interface GoodCategory {
@@ -99,8 +99,8 @@ onMounted(() => {
     </el-popover>
 
     <el-input
-      ref="InputRef"
       v-if="inputVisible"
+      ref="InputRef"
       v-model="inputValue"
       class="ml-1 w-20"
       clearable

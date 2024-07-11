@@ -32,7 +32,7 @@ controls.DampingFactor = 0.01
 controls.AutoRotate = true
 
 //加载场景贴图
-let rgbeLoader = new RGBELoader()
+const rgbeLoader = new RGBELoader()
 rgbeLoader.load('../scene/out_side.hdr', (envMap) => {
   envMap.mapping = THREE.EquirectangularReflectionMapping
 
@@ -44,23 +44,23 @@ rgbeLoader.load('../scene/out_side.hdr', (envMap) => {
 })
 
 //创建纹理加载器
-let textureLoader = new THREE.TextureLoader()
+const textureLoader = new THREE.TextureLoader()
 //加载纹理
-let texture = textureLoader.load('../texture/Wall_Stone_017_SD/Wall_Stone_017_BaseColor.jpg')
+const texture = textureLoader.load('../texture/Wall_Stone_017_SD/Wall_Stone_017_BaseColor.jpg')
 //设置纹理颜色空间
 texture.colorSpace = THREE.SRGBColorSpace
 
 //加载环境遮蔽贴图
-let aoMap = textureLoader.load('../texture/Wall_Stone_017_SD/Wall_Stone_017_AmbientOcclusion.jpg')
+const aoMap = textureLoader.load('../texture/Wall_Stone_017_SD/Wall_Stone_017_AmbientOcclusion.jpg')
 //加载高光贴图
-let specularMap = textureLoader.load('../texture/Wall_Stone_017_SD/Wall_Stone_017_Height.png')
+const specularMap = textureLoader.load('../texture/Wall_Stone_017_SD/Wall_Stone_017_Height.png')
 const planeGeometry = new THREE.BoxGeometry(1, 1, 1)
 const planeMaterial = new THREE.MeshBasicMaterial({
-  color: 0xffffff,
+  color: 0xFFFFFF,
   map: texture,
-  aoMap: aoMap,
+  aoMap,
   reflectivity: 0.1, //反射率
-  specularMap: specularMap
+  specularMap
 })
 const plane = new THREE.Mesh(planeGeometry, planeMaterial)
 

@@ -68,32 +68,32 @@ const cubeGeometry = new THREE.BoxGeometry(1, 1, 1)
 
 //创建材质
 const material = new THREE.MeshBasicMaterial({
-  color: 0x00ff00,
+  color: 0x00FF00,
   wireframe: true
 })
 
 const material0 = new THREE.MeshBasicMaterial({
-  color: 0x00ff00
+  color: 0x00FF00
 })
 
 const material1 = new THREE.MeshBasicMaterial({
-  color: 0xff0000
+  color: 0xFF0000
 })
 
 const material2 = new THREE.MeshBasicMaterial({
-  color: 0x0000ff
+  color: 0x0000FF
 })
 
 const material3 = new THREE.MeshBasicMaterial({
-  color: 0xffff00
+  color: 0xFFFF00
 })
 
 const material4 = new THREE.MeshBasicMaterial({
-  color: 0xff00ff
+  color: 0xFF00FF
 })
 
 const material5 = new THREE.MeshBasicMaterial({
-  color: 0x00ffff
+  color: 0x00FFFF
 })
 
 const plane = new THREE.Mesh(geometry, material)

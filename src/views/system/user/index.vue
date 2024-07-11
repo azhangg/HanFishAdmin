@@ -1,12 +1,13 @@
 <script setup lang="ts">
 import type { RoleType } from '@/types/role'
-import { FormRules, FormInstance, ElMessage, ElMessageBox, UploadProps } from 'element-plus'
-import { Delete, Edit, Search, Plus } from '@element-plus/icons-vue'
+import type { FormInstance, FormRules, UploadProps } from 'element-plus';
+import { ElMessage, ElMessageBox } from 'element-plus'
+import { Delete, Edit, Plus, Search } from '@element-plus/icons-vue'
 
 import { getRolesReq } from '@/api/role'
-import { getUserToPaginationReq, updateUserReq, deleteUserReq } from '@/api/user'
+import { deleteUserReq, getUserToPaginationReq, updateUserReq } from '@/api/user'
 import { OperationType } from '@/types/enums'
-import { UserType } from '@/types/user'
+import type { UserType } from '@/types/user'
 import moment from 'moment-mini'
 import { useBasicStore } from '@/store/basic'
 
@@ -182,8 +183,8 @@ onMounted(() => {
         <template #default="scope">
           <el-button type="primary" plain :icon="Edit" circle @click="onEditUserClick(scope.row)" />
           <el-button
-            type="danger"
             v-if="userInfo.id != scope.row.id"
+            type="danger"
             plain
             :icon="Delete"
             circle

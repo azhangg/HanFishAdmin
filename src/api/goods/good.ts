@@ -1,4 +1,4 @@
-import { GoodStatus } from '@/types/enums'
+import type { GoodStatus } from '@/types/enums'
 
 export const getGoodListReq = (data: {
   page: number

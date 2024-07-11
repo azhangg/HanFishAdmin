@@ -27,11 +27,11 @@ renderer.setSize(window.innerWidth, window.innerHeight)
 const geometry = new THREE.BoxGeometry(1, 1, 1)
 
 //创建材质
-const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
-const parentMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 })
+const material = new THREE.MeshBasicMaterial({ color: 0x00FF00 })
+const parentMaterial = new THREE.MeshBasicMaterial({ color: 0xFF0000 })
 
 //创建网格
-let parentCube = new THREE.Mesh(geometry, parentMaterial)
+const parentCube = new THREE.Mesh(geometry, parentMaterial)
 
 const cube = new THREE.Mesh(geometry, material)
 
@@ -71,7 +71,7 @@ const timer = setInterval(() => {
 
 //创建GUI
 
-let eventObj = {
+const eventObj = {
   FullScreen: () => document.body.requestFullscreen(),
   ExitFullScreen: () => document.exitFullscreen()
 }
@@ -81,14 +81,14 @@ const gui = new GUI()
 gui.add(eventObj, 'FullScreen').name('全屏')
 gui.add(eventObj, 'ExitFullScreen').name('退出全屏')
 //控制立方体位置
-let folder = gui.addFolder('立方体位置')
+const folder = gui.addFolder('立方体位置')
 folder.add(cube.position, 'x').min(-10).max(10).step(1).name('立方体X轴位置')
 folder.add(cube.position, 'y').min(-10).max(10).step(1).name('立方体Y轴位置')
 folder.add(cube.position, 'z').min(-10).max(10).step(1).name('立方体Z轴位置')
 
 gui.add(parentMaterial, 'wireframe').name('父元素线框模式')
 
-let colorParams = {
+const colorParams = {
   cubeColor: '#ff0000'
 }
 

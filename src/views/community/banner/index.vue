@@ -4,7 +4,7 @@ import type { UploadProps } from 'element-plus'
 import { ElMessage, ElMessageBox } from 'element-plus'
 import { OperationType } from '@/types/enums'
 import { Delete, Edit, Plus } from '@element-plus/icons-vue'
-import { getBannerListReq, addBannerReq, updateBannerReq, deleteBannerReq } from '@/api/community/banner'
+import { addBannerReq, deleteBannerReq, getBannerListReq, updateBannerReq } from '@/api/community/banner'
 
 import { useBasicStore } from '@/store/basic'
 
@@ -132,12 +132,12 @@ onMounted(() => {
   <div class="banner h-full">
     <el-button class="mb2" type="success" plain :icon="Plus" @click="openAddBannerDialog()">添加轮播图</el-button>
     <el-button class="mb2" type="primary" plain @click="getAllBanner()">刷新</el-button>
-    <el-checkbox class="ml-2 mb2" v-model="isApplied" label="" />
+    <el-checkbox v-model="isApplied" class="ml-2 mb2" label="" />
     <text class="ml-2 mb-2">{{ `${isApplied ? '查询已应用' : '查询全部'}` }}</text>
     <el-table :data="bannerList" style="width: 100%" height="95%" row-key="id" border default-expand-all>
       <el-table-column prop="name" label="图片" align="center">
         <template #default="scope">
-          <img class="w-full h-50" v-if="scope.row.imgUrl" :src="`${BASE_URL}/${scope.row.imgUrl}`" />
+          <img v-if="scope.row.imgUrl" class="w-full h-50" :src="`${BASE_URL}/${scope.row.imgUrl}`" />
         </template>
       </el-table-column>
       <el-table-column prop="apply" label="是否应用" align="center">

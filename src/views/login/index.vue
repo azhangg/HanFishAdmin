@@ -108,10 +108,10 @@ const state: any = reactive({
 const rememberMe = ref(false)
 const registerDialogVisible = ref(false)
 
-var sessionData = localStorage.getItem('pwdGroup')
+const sessionData = localStorage.getItem('pwdGroup')
 
 if (sessionData) {
-  var pwdGroup = JSON.parse(sessionData)
+  const pwdGroup = JSON.parse(sessionData)
   const { userName, password } = pwdGroup
   subForm.userName = userName
   subForm.password = password
