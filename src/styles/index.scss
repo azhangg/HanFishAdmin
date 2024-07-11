@@ -48,6 +48,13 @@ output {
   line-height: 1;
 }
 
+canvas {
+  // display: block;
+  // position: fixed;
+  height: 100% !important;
+  width: 100% !important;
+}
+
 //scroll
 @mixin main-show-wh() {
   /* css 声明 */

@@ -1,7 +1,6 @@
-import packageJson from '../package.json'
 import type { SettingsConfig } from '~/basic'
 export const settings: SettingsConfig = {
-  title: packageJson.name,
+  title: '含小鱼后台管理系统',
   /**
    * @type {boolean} true | false
    * @description Whether show the logo in sidebar
