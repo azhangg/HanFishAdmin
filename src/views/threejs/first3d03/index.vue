@@ -56,7 +56,7 @@ const aoMap = textureLoader.load('../texture/Wall_Stone_017_SD/Wall_Stone_017_Am
 const specularMap = textureLoader.load('../texture/Wall_Stone_017_SD/Wall_Stone_017_Height.png')
 const planeGeometry = new THREE.BoxGeometry(1, 1, 1)
 const planeMaterial = new THREE.MeshBasicMaterial({
-  color: 0xFFFFFF,
+  color: 0xffffff,
   map: texture,
   aoMap,
   reflectivity: 0.1, //反射率
@@ -78,6 +78,8 @@ const timer = setInterval(() => {
   frame = 0
 }, 1000)
 
+let animationId = 0
+
 const animate = () => {
   //让物体旋转
   controls.update()
@@ -85,7 +87,7 @@ const animate = () => {
   frame += 1
 
   renderer.render(scene, camera)
-  requestAnimationFrame(animate) //逐帧渲染
+  animationId = requestAnimationFrame(animate) //逐帧渲染
 }
 
 onMounted(() => {
@@ -97,6 +99,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   clearInterval(timer)
+  cancelAnimationFrame(animationId)
 })
 </script>
 

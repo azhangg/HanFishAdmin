@@ -95,6 +95,8 @@ const onMouseMove = (e) => {
   mouse.y = 1 - (e.offsetY / e.target.offsetHeight) * 2
 }
 
+let animationId = 0
+
 const animate = () => {
   material.uniforms.uMouse.value = mouse
   material.uniforms.uTime.value = performance.now() / 1000
@@ -103,7 +105,7 @@ const animate = () => {
 
   renderer.render(scene, camera)
 
-  requestAnimationFrame(animate) //逐帧渲染
+  animationId = requestAnimationFrame(animate) //逐帧渲染
 }
 
 onMounted(() => {
@@ -115,6 +117,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   clearInterval(timer)
+  cancelAnimationFrame(animationId)
 })
 </script>
 

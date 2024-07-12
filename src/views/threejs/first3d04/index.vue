@@ -42,21 +42,21 @@ const sphereGeometry = new THREE.SphereGeometry(1, 32, 32)
 const sphere1 = new THREE.Mesh(
   sphereGeometry,
   new THREE.MeshBasicMaterial({
-    color: 0x00FF00
+    color: 0x00ff00
   })
 )
 
 const sphere2 = new THREE.Mesh(
   sphereGeometry,
   new THREE.MeshBasicMaterial({
-    color: 0xFF0000
+    color: 0xff0000
   })
 )
 
 const sphere3 = new THREE.Mesh(
   sphereGeometry,
   new THREE.MeshBasicMaterial({
-    color: 0x0000FF
+    color: 0x0000ff
   })
 )
 
@@ -115,8 +115,10 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix()
 })
 
+let animationId = 0
+
 const animate = () => {
-  requestAnimationFrame(animate) //逐帧渲染
+  animationId = requestAnimationFrame(animate) //逐帧渲染
 
   controls.update()
 
@@ -134,6 +136,7 @@ onMounted(() => {
 
 onUnmounted(() => {
   clearInterval(timer)
+  cancelAnimationFrame(animationId)
 })
 </script>
 

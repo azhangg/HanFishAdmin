@@ -27,8 +27,8 @@ renderer.setSize(window.innerWidth, window.innerHeight)
 const geometry = new THREE.BoxGeometry(1, 1, 1)
 
 //创建材质
-const material = new THREE.MeshBasicMaterial({ color: 0x00FF00 })
-const parentMaterial = new THREE.MeshBasicMaterial({ color: 0xFF0000 })
+const material = new THREE.MeshBasicMaterial({ color: 0x00ff00 })
+const parentMaterial = new THREE.MeshBasicMaterial({ color: 0xff0000 })
 
 //创建网格
 const parentCube = new THREE.Mesh(geometry, parentMaterial)
@@ -107,8 +107,10 @@ window.addEventListener('resize', () => {
   camera.updateProjectionMatrix()
 })
 
+let animationId = 0
+
 const animate = () => {
-  requestAnimationFrame(animate) //逐帧渲染
+  animationId = requestAnimationFrame(animate) //逐帧渲染
 
   //让物体旋转
   controls.update()
@@ -128,6 +130,7 @@ onMounted(() => {
 onUnmounted(() => {
   clearInterval(timer)
   gui.destroy()
+  cancelAnimationFrame(animationId)
 })
 </script>
 
